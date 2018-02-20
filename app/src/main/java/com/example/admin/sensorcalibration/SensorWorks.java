@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -73,6 +74,7 @@ public class SensorWorks extends AppCompatActivity {
                 break;
             case 2:
                 setContentView(R.layout.accelero);
+                final LineChart chart = (LineChart) findViewById(R.id.chart);
                 acceleromotorSensorListener = new SensorEventListener() {
                     @Override
                     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -82,7 +84,15 @@ public class SensorWorks extends AppCompatActivity {
                             float z = sensorEvent.values[2];
                             Log.d("X",x+"");
                             Log.d("Y", y+"");
-                            Log.d("Z", y+"");
+                            List<Entry> entries = new ArrayList<Entry>();
+                            entries.add(new Entry(x,y));
+                            LineDataSet dataSet = new LineDataSet(entries, "Acceleromotor");
+                            dataSet.setColor(R.color.colorAccent);
+                            LineData lineData = new LineData(dataSet);
+                            chart.setData(lineData);
+                            chart.notifyDataSetChanged();
+                            chart.animateX(5000);
+                            chart.invalidate();
                         }
                     }
 
@@ -116,9 +126,10 @@ public class SensorWorks extends AppCompatActivity {
                 break;
             case 4:
                 setContentView(R.layout.light);
-                final LineChart chart = (LineChart) findViewById(R.id.chart);
 
                 lightSensorListener=new SensorEventListener() {
+
+                  final Chart chart = (LineChart) findViewById(R.id.chart);
                     @Override
                     public void onSensorChanged(SensorEvent sensorEvent) {
                         Log.d("light", sensorEvent.values[0]+"");
