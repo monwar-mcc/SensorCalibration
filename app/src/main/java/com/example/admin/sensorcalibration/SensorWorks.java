@@ -91,7 +91,8 @@ public class SensorWorks extends AppCompatActivity {
                             LineData lineData = new LineData(dataSet);
                             chart.setData(lineData);
                             chart.notifyDataSetChanged();
-                            chart.animateX(5000);
+                            chart.animateX(500);
+
                             chart.invalidate();
                         }
                     }
